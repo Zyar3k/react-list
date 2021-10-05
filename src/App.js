@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 const data = [
-  { id: "1", brand: "Ford", model: "Sierra", year: 1980 },
-  { id: "2", brand: "Mitsubishi", model: "Lancer", year: 1980 },
-  { id: "3", brand: "Subaru", model: "Impreza", year: 1990 },
+  { id: "1", brand: "Ford", model: "Sierra", year: 1960 },
+  { id: "2", brand: "Mitsubishi", model: "Lancer", year: 1970 },
+  { id: "3", brand: "Audi", model: "80", year: 1990 },
+  { id: "4", brand: "Subaru", model: "Impreza", year: 1995 },
 ];
 
 function App() {
@@ -14,10 +15,13 @@ function App() {
   const [year, setYear] = useState("");
   const [id, setId] = useState("");
   const [isEdit, setIsEdit] = useState(false);
+  const [desc, setDesc] = useState(false);
 
+  console.log(cars.length);
   const handleDeleteCar = (e) => {
     const id = e.target.parentNode.parentNode.id;
-    setCars((prev) => prev.filter((car) => car.id !== id));
+    const dataTest = cars.filter((car) => car.id !== id);
+    setCars(dataTest);
   };
 
   const handleEdit = (e) => {
@@ -49,7 +53,7 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const basicId = Math.floor(Math.random() * 9999);
+    const basicId = toString(Math.floor(Math.random() * 9999));
     const carObject = {
       id: basicId,
       brand: brand,
@@ -57,6 +61,55 @@ function App() {
       year: year,
     };
     setCars((prev) => [...prev, carObject]);
+  };
+
+  // IMPROVE:
+  const sortByBrand = () => {
+    let array;
+    if (desc) {
+      setDesc(!desc);
+      console.log(data.length);
+      array = [].concat(cars).sort((a, b) => (a.brand > b.brand ? 1 : -1));
+    } else {
+      setDesc(!desc);
+      array = []
+        .concat(cars)
+        .sort((a, b) => (a.brand > b.brand ? 1 : -1))
+        .reverse();
+    }
+    return setCars(array);
+  };
+  // IMPROVE:
+  const sortByModel = () => {
+    let array;
+
+    if (desc) {
+      setDesc(!desc);
+      array = [].concat(cars).sort((a, b) => (a.model > b.model ? 1 : -1));
+    } else {
+      setDesc(!desc);
+      array = []
+        .concat(cars)
+        .sort((a, b) => (a.model > b.model ? 1 : -1))
+        .reverse();
+    }
+    return setCars(array);
+  };
+  // IMPROVE:
+  const sortByYear = () => {
+    let array;
+
+    if (desc) {
+      setDesc(!desc);
+      array = [].concat(cars).sort((a, b) => (a.year > b.year ? 1 : -1));
+    } else {
+      setDesc(!desc);
+      array = []
+        .concat(cars)
+        .sort((a, b) => (a.year > b.year ? 1 : -1))
+        .reverse();
+    }
+    return setCars(array);
   };
 
   return (
@@ -101,12 +154,28 @@ function App() {
         )}
         <button type="button">Cancel</button>
       </form>
+      <div>
+        <br />
+        <label>Find</label>
+        <input type="text" />
+        <br />
+        <br />
+      </div>
       <table width="100%">
         <thead>
           <tr>
-            <th>Brand</th>
-            <th>Model</th>
-            <th>Year</th>
+            <th>
+              <button onClick={sortByBrand}>SORT by </button>
+              Brand
+            </th>
+            <th>
+              <button onClick={sortByModel}>SORT by </button>
+              Model
+            </th>
+            <th>
+              <button onClick={sortByYear}>SORT by </button>
+              Year
+            </th>
             <th>Func</th>
           </tr>
         </thead>
@@ -118,7 +187,7 @@ function App() {
               <td>{car.year}</td>
               <td>
                 <button onClick={handleEdit}>EDIT</button>
-                <button onClick={(e) => handleDeleteCar(e)}>DELETE</button>
+                <button onClick={handleDeleteCar}>DELETE</button>
               </td>
             </tr>
           ))}
