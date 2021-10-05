@@ -12,14 +12,36 @@ function App() {
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [year, setYear] = useState("");
+  const [id, setId] = useState("");
   const [isEdit, setIsEdit] = useState(false);
 
   const handleDeleteCar = (e) => {
-    const id = e.target.id;
+    const id = e.target.parentNode.parentNode.id;
     setCars((prev) => prev.filter((car) => car.id !== id));
   };
 
-  console.log(model);
+  const handleEdit = (e) => {
+    setIsEdit(true);
+    const checkId = e.target.parentNode.parentNode.id;
+    const data = cars.filter((item) => item.id === checkId);
+    setBrand(data[0].brand);
+    setModel(data[0].model);
+    setYear(data[0].year);
+    setId(data[0].id);
+  };
+
+  const editCar = () => {
+    const editCar = {
+      brand: brand,
+      model: model,
+      year: year,
+      id: id,
+    };
+
+    let data = cars.filter((item) => item.id !== id);
+    data = [...data, editCar];
+    setCars(data.reverse());
+  };
 
   const handleOnChangeBrand = (event) => setBrand(event.target.value);
   const handleOnChangeModel = (event) => setModel(event.target.value);
@@ -34,10 +56,9 @@ function App() {
       model: model,
       year: year,
     };
-
-    const data = [...cars, carObject];
-    setCars(data);
+    setCars((prev) => [...prev, carObject]);
   };
+
   return (
     <div className="App">
       <h1>Cars</h1>
@@ -72,7 +93,9 @@ function App() {
           </label>
         </div>
         {isEdit ? (
-          <button type="button">Edit</button>
+          <button type="button" onClick={editCar}>
+            Edit
+          </button>
         ) : (
           <button type="submit">Add</button>
         )}
@@ -89,15 +112,13 @@ function App() {
         </thead>
         <tbody>
           {cars.map((car, index) => (
-            <tr key={index}>
+            <tr id={car.id} key={index}>
               <td>{car.brand}</td>
               <td>{car.model}</td>
               <td>{car.year}</td>
               <td>
-                <button>EDIT</button>
-                <button id={car.id} onClick={(e) => handleDeleteCar(e)}>
-                  DELETE
-                </button>
+                <button onClick={handleEdit}>EDIT</button>
+                <button onClick={(e) => handleDeleteCar(e)}>DELETE</button>
               </td>
             </tr>
           ))}
