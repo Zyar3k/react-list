@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 
 const data = [
@@ -16,8 +16,8 @@ function App() {
   const [id, setId] = useState("");
   const [isEdit, setIsEdit] = useState(false);
   const [desc, setDesc] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  console.log(cars.length);
   const handleDeleteCar = (e) => {
     const id = e.target.parentNode.parentNode.id;
     const dataTest = cars.filter((car) => car.id !== id);
@@ -68,7 +68,6 @@ function App() {
     let array;
     if (desc) {
       setDesc(!desc);
-      console.log(data.length);
       array = [].concat(cars).sort((a, b) => (a.brand > b.brand ? 1 : -1));
     } else {
       setDesc(!desc);
@@ -110,6 +109,10 @@ function App() {
         .reverse();
     }
     return setCars(array);
+  };
+
+  const filterByBrand = () => {
+    console.log("filter by brand");
   };
 
   return (
@@ -156,8 +159,15 @@ function App() {
       </form>
       <div>
         <br />
-        <label>Find</label>
-        <input type="text" />
+        <h1>{searchTerm}</h1>
+        <label>Find by brand</label>
+        <input
+          type="text"
+          placeholder="search"
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+          }}
+        />
         <br />
         <br />
       </div>
@@ -180,17 +190,29 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {cars.map((car, index) => (
-            <tr id={car.id} key={index}>
-              <td>{car.brand}</td>
-              <td>{car.model}</td>
-              <td>{car.year}</td>
-              <td>
-                <button onClick={handleEdit}>EDIT</button>
-                <button onClick={handleDeleteCar}>DELETE</button>
-              </td>
-            </tr>
-          ))}
+          {cars
+            .filter((car) => {
+              if (searchTerm === "") {
+                return car;
+              } else if (
+                car.brand
+                  .toLocaleLowerCase()
+                  .includes(searchTerm.toLocaleLowerCase())
+              ) {
+                return car;
+              }
+            })
+            .map((car, index) => (
+              <tr id={car.id} key={index}>
+                <td>{car.brand}</td>
+                <td>{car.model}</td>
+                <td>{car.year}</td>
+                <td>
+                  <button onClick={handleEdit}>EDIT</button>
+                  <button onClick={handleDeleteCar}>DELETE</button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>
