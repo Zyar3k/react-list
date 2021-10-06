@@ -2,10 +2,78 @@ import { useState } from "react";
 import "./App.css";
 
 const data = [
-  { id: "1", brand: "Ford", model: "Sierra", year: 1960 },
-  { id: "2", brand: "Mitsubishi", model: "Lancer", year: 1970 },
-  { id: "3", brand: "Audi", model: "80", year: 1990 },
-  { id: "4", brand: "Subaru", model: "Impreza", year: 1995 },
+  {
+    id: 18,
+    brand: "Fiat",
+    model: "2/2B",
+    year: "1910",
+  },
+  {
+    id: 22,
+    brand: "Audi",
+    model: "Type C",
+    year: "1912",
+  },
+  {
+    id: 23,
+    brand: "Chevrolet",
+    model: "Classic Six",
+    year: "1910",
+  },
+  {
+    id: 44,
+    brand: "Essex",
+    model: "Essex A",
+    year: "1919",
+  },
+  {
+    id: 5,
+    brand: "Hispano-Suiza",
+    model: "H6",
+    year: "1919",
+  },
+  {
+    id: 64,
+    brand: "Lancia",
+    model: "Tipo 55 Corsa",
+    year: "1908",
+  },
+  {
+    id: 7,
+    brand: "Morris",
+    model: "Oxford",
+    year: "1913",
+  },
+  {
+    id: 8,
+    brand: "Opel",
+    model: "Rennwagen",
+    year: "1913",
+  },
+  {
+    id: 92,
+    brand: "Peugeot",
+    model: "Type 126",
+    year: "1910",
+  },
+  {
+    id: 140,
+    brand: "Rolls-Royce",
+    model: "Silver Ghost",
+    year: "1906",
+  },
+  {
+    id: 121,
+    brand: "Vauxhall",
+    model: "Prince Henry",
+    year: "1911",
+  },
+  {
+    id: 112,
+    brand: "Woods",
+    model: "Dual Power",
+    year: "1917",
+  },
 ];
 
 function App() {
@@ -159,7 +227,6 @@ function App() {
       </form>
       <div>
         <br />
-        <h1>{searchTerm}</h1>
         <label>Find by brand</label>
         <input
           type="text"
